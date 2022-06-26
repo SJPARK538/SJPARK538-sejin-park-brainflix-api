@@ -4,9 +4,7 @@ const videos = require(videosFile);
 const router = express.Router();
 const { v4: uuidv4 } = require('uuid')
 const fs = require("fs");
-const timestamp = () => {
-    return Date.now
-}
+
 
 router.get ("/", (req, res)=>{
     const videoLists = videos.map(video => {
@@ -23,7 +21,6 @@ router.get ("/", (req, res)=>{
 router.get ("/:id", (req, res) => {
     console.log('req', req.params.id)
     const item = videos.find(video => video.id === req.params.id);
-    console.log('item', item);
     if(item){
         res.status(200)
             .json(item)
@@ -44,9 +41,6 @@ function writeJson(filename, content){
     })
 }
 
-
-
-
 router.post("/", (req, res) => {
     const newVideo = {
         id: uuidv4(),
@@ -54,8 +48,8 @@ router.post("/", (req, res) => {
         channel: req.body.channel,
         description: req.body.description,
         image: req.body.image,
-        views: req.body.views,
-        likes: req.body.likes,
+        views: "12",
+        likes: "5",
         timestamp: new Date().toLocaleDateString(),
         comments: []
     }
@@ -64,5 +58,4 @@ router.post("/", (req, res) => {
     res.json(newVideo);
 })
 
-console.log(writeJson(videosFile, videos))
 module.exports = router;
